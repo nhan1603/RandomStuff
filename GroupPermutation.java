@@ -33,7 +33,7 @@ public class GroupPermutation {
 // Prints all distinct permutations in str[0..n-1]  
     private void findPermutations(char str[], int index, int n) { 
         if (index >= n) { 
-            System.out.println(str); 
+            //System.out.println(str); 
             String src = new String(str);
             addMajor(src);
 			addInverse(src);
