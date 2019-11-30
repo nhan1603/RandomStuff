@@ -1,12 +1,19 @@
 package simulation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
+
 
 
 public class TestBijection {
 	static int firsttwo =  0;
 	static int firstone =  0;
+	static List<String> makk = new ArrayList<String>();
+	static List<String> maj = new ArrayList<String>();
 	static boolean checkk = true;
+	static boolean checkk2 = true;
 	static boolean shouldSwap(char str[], int start, int curr) { 
         for (int i = start; i < curr; i++) { 
             if (str[i] == str[curr]) { 
@@ -57,6 +64,11 @@ public class TestBijection {
         	System.out.println("Not equidistributed");
         } else {
         	System.out.println("Equidistributed");
+        }
+        if (makk.size() == maj.size()) {
+        	System.out.println("true");
+        } else {
+        	System.out.println("false");
         }
 	}
     private void Bijection(String str) {
@@ -111,7 +123,7 @@ public class TestBijection {
 					makString = makString.substring(0, firsttwo+1) + inte[i] + makString.substring(firsttwo+1,makString.length());	       
 				}
 			}
-			System.out.println(makString);
+			//System.out.println(makString);
 		}
 		
 		
@@ -161,7 +173,7 @@ public class TestBijection {
 			}
 		} //21
 		System.out.println("Major : " + str + " " + Major);
-		
+		maj.add(str);
 		int[] inte2 = new int[leng];
 		
 		char[] src2 = makString.toCharArray();
@@ -228,6 +240,9 @@ public class TestBijection {
 			}
 		} //21
 		System.out.println("Mak : "+makString + " " + Mak);
+		if (!makk.contains(makString)) {
+			makk.add(makString);
+		}
 		if (Mak !=  Major) {
 			checkk = false;		}
 	}
