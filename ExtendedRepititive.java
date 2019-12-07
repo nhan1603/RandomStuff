@@ -1,29 +1,21 @@
 package simulation;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-public class GroupPermutation {
+public class ExtendedRepititive {
 	static int calculate = 0;
-	static Map<String,List<String>> major = new HashMap<String,List<String>>();
-	static Map<String,List<String>> inverse = new HashMap<String,List<String>>();
-	static Map<String,List<String>> mak = new HashMap<String,List<String>>();
-	static Map<String,List<String>> mak2 = new HashMap<String,List<String>>();
+	static List<Integer> major = new ArrayList<Integer>();
+	static List<Integer> inverse = new ArrayList<Integer>();
+	static List<Integer> mak = new ArrayList<Integer>();
 	static List<Integer> mad = new ArrayList<Integer>();
-	//static Map<Integer,List<String>> mad = new HashMap<Integer,List<String>>();
 	static int max =0;
 	static int max2 =0;
 	static int max3 =0;
 	static int max4 =0;
-	static boolean check1 = true;
+	static boolean check = true;
 // Returns true if str[curr] does not matches with any of the  
 // characters after str[start]  
     static boolean shouldSwap(char str[], int start, int curr) { 
@@ -69,56 +61,94 @@ public class GroupPermutation {
     } 
   
     // Driver code 
-    public static void main(String[] args) throws IOException { 
+    public static void main(String[] args) { 
   
         String str = JOptionPane.showInputDialog("Input String");
         int n = str.length(); 
         char[] src = str.toCharArray();
-        //PrintWriter output = new PrintWriter("testPermu.txt");
-        
-        GroupPermutation GroupPermutation = new GroupPermutation();
-        GroupPermutation.findPermutations(src, 0, n); 
+        ExtendedRepititive ExtendedRepititive = new ExtendedRepititive();
+        ExtendedRepititive.findPermutations(src, 0, n); 
         System.out.println("Total permutation = " + calculate);
+        
+        int[] count =  new int[max+1];
+		for (int i:count) {
+			i= 0;
+		}
+		major.forEach(e->{
+			System.out.print(e+ " ");
+			count[e] = count[e]+1;
+		});
 		System.out.println();
 		System.out.println("Major occurence");
-		major.entrySet().forEach(entry->{
-		    System.out.println(entry.getKey() + " " + entry.getValue());  
-		 });
+		for (int i=0;i<max+1;i++) {
+			System.out.println(i+ " "+count[i]);
+		}
 		
 		System.out.println();
 		System.out.println("Inverse occurence");
-		inverse.entrySet().forEach(entry->{
-		    System.out.println(entry.getKey() + " " + entry.getValue());  
-		 });
+		int[] count2 =  new int[max2+1];
+		for (int i:count2) {
+			i= 0;
+		}
+		inverse.forEach(e->{
+			System.out.print(e+ " ");
+			count2[e] = count2[e]+1;
+		});
+		System.out.println();
+		for (int i=0;i<max2+1;i++) {
+			System.out.println(i+ " "+count2[i]);
+		}
+		
+		int[] count3 =  new int[max3+1];
+		for (int i:count3) {
+			i= 0;
+		}
+		System.out.println();
+		mak.forEach(e->{
+			System.out.print(e+ " ");
+			count3[e] = count3[e]+1;
+		});
+		for (int i=0;i<max3+1;i++) {
+			if (count3[i] != count[i]) {
+				check = false;
+			}
+		}
 		System.out.println();
 		System.out.println("Mak occurence");
-		mak.entrySet().forEach(entry->{
-		    System.out.println(entry.getKey() + " " + entry.getValue());  
-		 });
-//		mad.forEach(e->{
-//			System.out.print(e+ " ");
-//			count4[e] = count4[e]+1;
-//		});
-//		System.out.println();
-//		System.out.println("Mad occurence");
-//		for (int i=0;i<max4+1;i++) {
-//			System.out.println(i+ " "+count4[i]);
-//		}
+		for (int i=0;i<max3+1;i++) {
+			System.out.println(i+ " "+count3[i]);
+		}
+		
+		int[] count4 =  new int[max4+1];
+		for (int i:count4) {
+			i= 0;
+		}
+		System.out.println();
+		mad.forEach(e->{
+			System.out.print(e+ " ");
+			count4[e] = count4[e]+1;
+		});
+		
+		for (int i=0;i<max4+1;i++) {
+			if (count4[i] != count[i]) {
+				check = false;
+			}
+		}
+		System.out.println();
 		System.out.println("Mak2 occurence");
-		mak2.entrySet().forEach(entry->{
-		    System.out.println(entry.getKey() + " " + entry.getValue());  
-		 });
-		if (!check1) {
+		for (int i=0;i<max4+1;i++) {
+			System.out.println(i+ " "+count4[i]);
+		}
+		
+		if (!check) {
 			System.out.println("Not equidistributed");
 		} else {
 			System.out.println("Equidistributed");
 		}
-		//System.out.close();
         
     } 
     public void addMajor(String src) {
 		int Major = 0;
-		List<String> prtLs = new ArrayList<String>();
 		char[] convert = src.toCharArray();
 		int leng = convert.length;
 		int[] inte = new int[leng];
@@ -129,7 +159,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i]< inte[j+1])&&(inte[j]>inte[j+1])) {
 					Major +=1;
-					prtLs.add("1-32");
 				}
 			}
 		}
@@ -138,7 +167,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i] == inte[j+1])&&(inte[j]>inte[j+1])) {
 					Major +=1;
-					prtLs.add("1-21");
 				}
 			}
 		}
@@ -147,7 +175,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i] > inte[j+1])&&(inte[j]>inte[i])) {
 					Major +=1;
-					prtLs.add("2-31");
 				}
 			}
 		}
@@ -156,7 +183,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i] > inte[j+1])&&(inte[j]==inte[i])) {
 					Major +=1;
-					prtLs.add("2-21");
 				}
 			}
 		}
@@ -165,7 +191,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i] > inte[j])&&(inte[j]>inte[j+1])) {
 					Major +=1;
-					prtLs.add("3-21");
 				}
 			}
 		}
@@ -173,40 +198,37 @@ public class GroupPermutation {
 		for (int j=0;j<leng-1;j++) {
 			if (inte[j] > inte[j+1]){
 				Major +=1;
-				prtLs.add("21");
 			}
 		}
 		
 		if (Major >= max) {
 			max = Major;
 		}
-		major.put(Major+" => "+src, prtLs);
+		major.add(Major);
 	}
 	
 
 	public void addInverse(String src) {
 		int Inverse = 0;
 		char[] convert = src.toCharArray();
-		List<String> prtLs = new ArrayList<String>();
 		int leng = convert.length;
 		int[] inte = new int[leng];
 		for (int i=0;i<leng;i++) {
 			inte[i] = Character.getNumericValue(convert[i]);
 		}
-//		for (int i=0;i<leng-1;i++) {
-//			for (int j=i+1;j<leng;j++) {
-//				if (inte[i]>= inte[j]) {
-//					Inverse++;
-//				}
-//			}
-//		}
+		/*for (int i=0;i<leng-1;i++) {
+			for (int j=i+1;j<leng;j++) {
+				if (inte[i]>= inte[j]) {
+					Inverse++;
+				}
+			}
+		}*/
 		
 		
 		for (int i=0;i<leng-2;i++) {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] == inte[i+1])&&(inte[i]>inte[j])) {
 					Inverse +=1;
-					prtLs.add("22-1");
 				}
 			}
 		} //22-1
@@ -215,7 +237,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] < inte[i+1])&&(inte[i]>inte[j])) {
 					Inverse +=1;
-					prtLs.add("23-1");
 				}
 			}
 		} //23-1
@@ -224,7 +245,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[i+1])&&(inte[i+1]>inte[j])) {
 					Inverse +=1;
-					prtLs.add("32-1");
 				}
 			}
 		} //32-1
@@ -233,7 +253,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[i+1])&&(inte[i+1]==inte[j])) {
 					Inverse +=1;
-					prtLs.add("21-1");
 				}
 			}
 		} //21-1
@@ -242,7 +261,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[j])&&(inte[i+1]<inte[j])) {
 					Inverse +=1;
-					prtLs.add("31-2");
 				}
 			}
 		} // 31-2
@@ -250,20 +268,18 @@ public class GroupPermutation {
 		for (int j=0;j<leng-1;j++) {
 			if (inte[j] > inte[j+1]){
 				Inverse +=1;
-				prtLs.add("21");
 			} 
 		} // 21
 		
 		if (Inverse >= max2) {
 			max2 = Inverse;
 		}
-		inverse.put(Inverse + " ==> " +src,prtLs);
+		inverse.add(Inverse);
 	}
 	
 	public void addMak(String src) {
 		int Mak = 0;
 		char[] convert = src.toCharArray();
-		List<String> prtLs = new ArrayList<String>();
 		int leng = convert.length;
 		int[] inte = new int[leng];
 		for (int i=0;i<leng;i++) {
@@ -273,7 +289,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i]< inte[j+1])&&(inte[j]>inte[j+1])) {
 					Mak +=1;
-					prtLs.add("1-32");
 				}
 			}
 		} //1-32
@@ -282,7 +297,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i]< inte[j])&&(inte[i]==inte[j+1])) {
 					Mak +=1;
-					prtLs.add("1-21");
 				}
 			}
 		} //1-21
@@ -291,7 +305,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[j])&&(inte[j]>inte[i+1])) {
 					Mak +=1;
-					prtLs.add("31-2");
 				}
 			}
 		} //31-2
@@ -300,7 +313,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] == inte[j])&&(inte[j]>inte[i+1])) {
 					Mak +=1;
-					prtLs.add("21-2");
 				}
 			}
 		} //21-2
@@ -310,7 +322,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[i+1])&&(inte[i+1]>inte[j])) {
 					Mak +=1;
-					prtLs.add("32-1");
 				}
 			}
 		} //32-1
@@ -321,23 +332,19 @@ public class GroupPermutation {
 		for (int j=0;j<leng-1;j++) {
 			if (inte[j] > inte[j+1]){
 				Mak +=1;
-				prtLs.add("21");
 			}
 		} //21
 		
 		if (Mak >= max3) {
 			max3 = Mak;
 		}
-		//if ((Mak == 16)&&(src.getBytes()[src.length()-1]== '5')&&(src.getBytes()[src.length()-2]== '3')&&(src.getBytes()[src.length()-3]== '4')) {
-		mak.put(Mak+ " ==> " + src,prtLs);
-		//}
+		mak.add(Mak);
 	}
 	
 	public void addMad(String src) {
 		int Mad = 0;
 		char[] convert = src.toCharArray();
 		int leng = convert.length;
-		List<String> prtLs = new ArrayList<String>();
 		int[] inte = new int[leng];
 		for (int i=0;i<leng;i++) {
 			inte[i] = Character.getNumericValue(convert[i]);
@@ -347,7 +354,6 @@ public class GroupPermutation {
 			for (int j=i+1;j<leng-1;j++) {
 				if ((inte[i]< inte[j+1])&&(inte[j]>inte[j+1])) {
 					Mad +=1;
-					prtLs.add("1-32");
 				}
 			}
 		} //1-32
@@ -356,7 +362,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[j])&&(inte[j]>inte[i+1])) {
 					Mad +=1;
-					prtLs.add("31-2");
 				}
 			}
 		} //31-2
@@ -365,7 +370,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[i+1])&&(inte[j] < inte[i+1])) {
 					Mad +=1;
-					prtLs.add("32-1");
 				}
 			}
 		} //32-1
@@ -374,7 +378,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] > inte[j])&&(inte[j]==inte[i+1])) {
 					Mad +=1;
-					prtLs.add("21-1");
 				}
 			}
 		} //21-1
@@ -383,7 +386,6 @@ public class GroupPermutation {
 			for (int j=i+2;j<leng;j++) {
 				if ((inte[i] == inte[j])&&(inte[j]>inte[i+1])) {
 					Mad +=1;
-					prtLs.add("21-2");
 				}
 			}
 		} //21-2
@@ -393,13 +395,12 @@ public class GroupPermutation {
 		for (int j=0;j<leng-1;j++) {
 			if (inte[j] > inte[j+1]){
 				Mad +=1;
-				prtLs.add("21");
 			}
 		} //21
 		
 		if (Mad >= max4) {
 			max4 = Mad;
 		}
-		mak2.put(Mad+ " ==> " + src,prtLs);
+		mad.add(Mad);
 	}
 }
